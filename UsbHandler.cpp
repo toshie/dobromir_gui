@@ -1,6 +1,6 @@
 #include "UsbHandler.h"
 
-#include <hidapi.h>
+#include "lib/hidapi2/hidapi.h"
 
 #include <iostream>
 #include <string>
@@ -31,9 +31,24 @@ bool UsbHandler::connect()
     std::cout << "Connected to something!\n";
     wchar_t strbuf[256];
     hid_get_manufacturer_string(dobromirUsb, strbuf, sizeof(strbuf));
-//    std::cerr << "Manufacturer: " << std::wstring(strbuf);
+    std::wcerr << "Manufacturer: " << std::wstring(strbuf) << std::endl;
     hid_get_product_string(dobromirUsb, strbuf, sizeof(strbuf));
-//    std::cerr << "Product: " << std::wstring(strbuf);
+    std::wcerr << "Product: " << std::wstring(strbuf) << std::endl;
+
+    std::uint8_t data[65] = {0};
+    data[0] = 0;
+    data[1] = 0x9;
+    if (hid_write(dobromirUsb, data, 21) == -1)
+    {
+        std::wcout << "Error sending the message: " << std::wstring(hid_error(dobromirUsb)) << std::endl;
+    }
+    else
+    {
+        std::cout << "Send OK!\n";
+    }
+
+    hid_close(dobromirUsb);
+    hid_exit();
 
     return true;
 }

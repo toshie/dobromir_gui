@@ -18,12 +18,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     UsbHandler.cpp \
+    lib/dobromir_proto/dobromir_proto.c \
+    lib/hidapi2/hid.c \
     main.cpp \
     MainWindow.cpp
 
 HEADERS += \
     MainWindow.h \
-    UsbHandler.h
+    UsbHandler.h \
+    lib/dobromir_proto/dobromir_proto.h \
+    lib/hidapi2/hidapi.h
 
 FORMS += \
     MainWindow.ui
@@ -33,8 +37,10 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/lib/hidapi/ -lhidapi -Wl,-Bdynamic
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/lib/hidapi/ -lhidapi -Wl,-Bdynamic
+#win32:CONFIG(release, debug|release): LIBS += -L$$PWD/lib/hidapi/ -lhidapi -Wl,-Bdynamic
+#else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/lib/hidapi/ -lhidapi -Wl,-Bdynamic
 
-INCLUDEPATH += $$PWD/lib/hidapi
-DEPENDPATH += $$PWD/lib/hidapi
+LIBS += -mwindows -lsetupapi
+
+#INCLUDEPATH += $$PWD/lib/hidapi
+#DEPENDPATH += $$PWD/lib/hidapi
