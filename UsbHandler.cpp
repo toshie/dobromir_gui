@@ -1,11 +1,6 @@
 #include "UsbHandler.h"
 
-#include "lib/hidapi2/hidapi.h"
-
-#include <iostream>
-#include <string>
-
-#include <cstdint>
+#include "lib/dobromir_proto/dobromir_proto.h"
 
 UsbHandler::UsbHandler()
 {
@@ -16,13 +11,13 @@ bool UsbHandler::connect()
     if (hid_init() != 0)
     {
         std::cerr << "Cannot init hid";
-        return -1;
+        return false;
     }
 
     constexpr std::uint16_t dobromirVendorId = 0xebff;
     constexpr std::uint16_t dobromirProductId = 0x0;
-    hid_device* dobromirUsb = hid_open(dobromirVendorId, dobromirProductId, NULL);
-    if (!dobromirUsb)
+    _dobromirUsb = hid_open(dobromirVendorId, dobromirProductId, NULL);
+    if (!_dobromirUsb)
     {
         std::cerr << "Cannot find Dobromir plugged in";
         return false;
@@ -30,30 +25,28 @@ bool UsbHandler::connect()
 
     std::cout << "Connected to something!\n";
     wchar_t strbuf[256];
-    hid_get_manufacturer_string(dobromirUsb, strbuf, sizeof(strbuf));
+    hid_get_manufacturer_string(_dobromirUsb, strbuf, sizeof(strbuf));
     std::wcerr << "Manufacturer: " << std::wstring(strbuf) << std::endl;
-    hid_get_product_string(dobromirUsb, strbuf, sizeof(strbuf));
+    hid_get_product_string(_dobromirUsb, strbuf, sizeof(strbuf));
     std::wcerr << "Product: " << std::wstring(strbuf) << std::endl;
-
-    std::uint8_t data[65] = {0};
-    data[0] = 0;
-    data[1] = 0x9;
-    if (hid_write(dobromirUsb, data, 21) == -1)
-    {
-        std::wcout << "Error sending the message: " << std::wstring(hid_error(dobromirUsb)) << std::endl;
-    }
-    else
-    {
-        std::cout << "Send OK!\n";
-    }
-
-    hid_close(dobromirUsb);
-    hid_exit();
 
     return true;
 }
 
-bool UsbHandler::send()
+bool UsbHandler::disconnect()
 {
+    if (_dobromirUsb)
+    {
+        hid_close(_dobromirUsb);
+        hid_exit();
+    }
+
     return true;
+}
+
+bool UsbHandler::sendPing()
+{
+    struct report_ping report;
+    init_report_ping(&report);
+    return send(report);
 }

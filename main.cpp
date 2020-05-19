@@ -1,5 +1,6 @@
 #include "MainWindow.h"
 #include "UsbHandler.h"
+#include "UsbHandlerQtAdapter.h"
 
 #include <QApplication>
 
@@ -11,8 +12,7 @@ int main(int argc, char *argv[])
     w.show();
 
     UsbHandler usbHandler;
-    usbHandler.connect();
-
+    UsbHandlerQtAdapter usbHandlerAdapter(usbHandler, w);
 
     return a.exec();
 }

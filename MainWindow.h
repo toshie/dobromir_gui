@@ -15,6 +15,13 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void disableUsbCommunicationButtons();
+    void enableUsbCommunicationButtons();
+    void setButtonsForStateConnected();
+    void setButtonsForStateDisconnected();
+
+    Ui::MainWindow& getUi() { return *ui; }
+
 private:
     Ui::MainWindow *ui;
 };

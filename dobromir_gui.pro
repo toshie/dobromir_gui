@@ -18,6 +18,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     UsbHandler.cpp \
+    UsbHandlerQtAdapter.cpp \
     lib/dobromir_proto/dobromir_proto.c \
     lib/hidapi2/hid.c \
     main.cpp \
@@ -26,6 +27,7 @@ SOURCES += \
 HEADERS += \
     MainWindow.h \
     UsbHandler.h \
+    UsbHandlerQtAdapter.h \
     lib/dobromir_proto/dobromir_proto.h \
     lib/hidapi2/hidapi.h
 

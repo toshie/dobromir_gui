@@ -40,6 +40,22 @@
      </property>
     </widget>
     <widget class="QPushButton" name="btnPing">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>10</y>
+       <width>75</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Ping</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnConnect">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -49,7 +65,23 @@
       </rect>
      </property>
      <property name="text">
-      <string>Ping</string>
+      <string>Connect</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnDisconnect">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>170</x>
+       <y>10</y>
+       <width>75</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Disconnect</string>
      </property>
     </widget>
    </widget>
